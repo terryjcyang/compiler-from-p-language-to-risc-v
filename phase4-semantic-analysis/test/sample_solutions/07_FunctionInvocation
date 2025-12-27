@@ -1,0 +1,185 @@
+1: //&T-
+2: FunctionInvocation;
+3: 
+4: func() : boolean
+5: begin
+6:     return true;
+7: end
+8: end
+9: 
+10: func1(a: integer)
+11: begin
+12: end
+13: end
+14: 
+15: func2(a: real)
+16: begin
+17: end
+18: end
+19: 
+20: func3(a: array 7 of integer)
+21: begin
+22: end
+23: end
+24: 
+25: func4(a: array 7 of real)
+26: begin
+27: end
+28: end
+29: 
+30: func5(a: integer; b: string; c: array 7 of integer)
+31: begin
+32: end
+33: end
+34: 
+35: begin
+36:     var integerArr: array 7 of integer;
+37:     var realArr: array 7 of real;
+38:     var booleanArr: array 7 of boolean;
+39: 
+40:     // [ERROR] identifier has to be in symbol tables
+41:     null(123, 456);
+42: 
+43:     // [ERROR] kind of symbol has to be function
+44:     arr(123, 456);
+45: 
+46:     // [ERROR] # of arguments isn't the same as parameters
+47:     func("overflow");
+48: 
+49:     // [CORRECT]
+50:     func1(123);
+51: 
+52:     // [ERROR] incompatible argument and parameter types
+53:     func1(456.0);
+54: 
+55:     // [ERROR] incompatible argument and parameter types
+56:     func1("789");
+57: 
+58:     // [CORRECT]
+59:     func2(123);
+60: 
+61:     // [CORRECT]
+62:     func2(456.0);
+63: 
+64:     // [ERROR] incompatible argument and parameter types
+65:     func2("789");
+66: 
+67:     // [CORRECT]
+68:     func3(integerArr);
+69: 
+70:     // [ERROR] incompatible argument and parameter types
+71:     func3(realArr);
+72: 
+73:     // [ERROR] incompatible argument and parameter types
+74:     func3(booleanArr);
+75: 
+76:     // [ERROR] incompatible argument and parameter types
+77:     func4(integerArr);
+78: 
+79:     // [CORRECT]
+80:     func4(realArr);
+81: 
+82:     // [ERROR] incompatible argument and parameter types
+83:     func4(booleanArr);
+84: 
+85:     // [ERROR] incompatible argument and parameter types
+86:     func5(123, 456, integerArr);
+87: 
+88:     // [CORRECT]
+89:     func5(123, "456", integerArr);
+90: 
+91:     // [ERROR] incompatible argument and parameter types
+92:     func5(123, "456", realArr);
+93: 
+94:     // [ERROR] invalid operand
+95:     func5(-false, "456", integerArr);
+96: end
+97: end
+==============================================================================================================
+Name                             Kind       Level      Type             Attribute  
+--------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------
+==============================================================================================================
+Name                             Kind       Level      Type             Attribute  
+--------------------------------------------------------------------------------------------------------------
+a                                parameter  1(local)   integer                     
+--------------------------------------------------------------------------------------------------------------
+==============================================================================================================
+Name                             Kind       Level      Type             Attribute  
+--------------------------------------------------------------------------------------------------------------
+a                                parameter  1(local)   real                        
+--------------------------------------------------------------------------------------------------------------
+==============================================================================================================
+Name                             Kind       Level      Type             Attribute  
+--------------------------------------------------------------------------------------------------------------
+a                                parameter  1(local)   integer [7]                 
+--------------------------------------------------------------------------------------------------------------
+==============================================================================================================
+Name                             Kind       Level      Type             Attribute  
+--------------------------------------------------------------------------------------------------------------
+a                                parameter  1(local)   real [7]                    
+--------------------------------------------------------------------------------------------------------------
+==============================================================================================================
+Name                             Kind       Level      Type             Attribute  
+--------------------------------------------------------------------------------------------------------------
+a                                parameter  1(local)   integer                     
+b                                parameter  1(local)   string                      
+c                                parameter  1(local)   integer [7]                 
+--------------------------------------------------------------------------------------------------------------
+==============================================================================================================
+Name                             Kind       Level      Type             Attribute  
+--------------------------------------------------------------------------------------------------------------
+integerArr                       variable   1(local)   integer [7]                 
+realArr                          variable   1(local)   real [7]                    
+booleanArr                       variable   1(local)   boolean [7]                 
+--------------------------------------------------------------------------------------------------------------
+==============================================================================================================
+Name                             Kind       Level      Type             Attribute  
+--------------------------------------------------------------------------------------------------------------
+FunctionInvocation               program    0(global)  void                        
+func                             function   0(global)  boolean                     
+func1                            function   0(global)  void             integer    
+func2                            function   0(global)  void             real       
+func3                            function   0(global)  void             integer [7]
+func4                            function   0(global)  void             real [7]   
+func5                            function   0(global)  void             integer, string, integer [7]
+--------------------------------------------------------------------------------------------------------------
+<Error> Found in line 41, column 5: use of undeclared symbol 'null'
+        null(123, 456);
+        ^
+<Error> Found in line 44, column 5: use of undeclared symbol 'arr'
+        arr(123, 456);
+        ^
+<Error> Found in line 47, column 5: too few/much arguments provided for function 'func'
+        func("overflow");
+        ^
+<Error> Found in line 53, column 11: incompatible type passing 'real' to parameter of type 'integer'
+        func1(456.0);
+              ^
+<Error> Found in line 56, column 11: incompatible type passing 'string' to parameter of type 'integer'
+        func1("789");
+              ^
+<Error> Found in line 65, column 11: incompatible type passing 'string' to parameter of type 'real'
+        func2("789");
+              ^
+<Error> Found in line 71, column 11: incompatible type passing 'real [7]' to parameter of type 'integer [7]'
+        func3(realArr);
+              ^
+<Error> Found in line 74, column 11: incompatible type passing 'boolean [7]' to parameter of type 'integer [7]'
+        func3(booleanArr);
+              ^
+<Error> Found in line 77, column 11: incompatible type passing 'integer [7]' to parameter of type 'real [7]'
+        func4(integerArr);
+              ^
+<Error> Found in line 83, column 11: incompatible type passing 'boolean [7]' to parameter of type 'real [7]'
+        func4(booleanArr);
+              ^
+<Error> Found in line 86, column 16: incompatible type passing 'integer' to parameter of type 'string'
+        func5(123, 456, integerArr);
+                   ^
+<Error> Found in line 92, column 23: incompatible type passing 'real [7]' to parameter of type 'integer [7]'
+        func5(123, "456", realArr);
+                          ^
+<Error> Found in line 95, column 11: invalid operand to unary operator 'neg' ('boolean')
+        func5(-false, "456", integerArr);
+              ^

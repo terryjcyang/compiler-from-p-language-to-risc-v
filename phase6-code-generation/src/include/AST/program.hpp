@@ -1,0 +1,55 @@
+#ifndef AST_PROGRAM_NODE_H
+#define AST_PROGRAM_NODE_H
+
+#include "AST/ast.hpp"
+///
+#include "AST/CompoundStatement.hpp"
+#include "AST/decl.hpp"
+#include "AST/function.hpp"
+#include "visitor/AstNodeVisitor.hpp"
+#include <vector>
+#include <memory>
+
+#include <string>
+
+class ProgramNode final : public AstNode {
+   private:
+    /* m_ prefix: member */
+    std::string m_name;
+    // hw3 work: return type, declarations, functions, compound statement
+    // Note: In hw, return type is always "void".
+
+    std::vector<DeclNode *> m_declarations;
+    std::vector<FunctionNode *> m_functions;
+    CompoundStatementNode *m_body;
+
+   public:
+    ~ProgramNode() override;
+    ProgramNode(const uint32_t line, const uint32_t col,
+                const char *const p_name, std::vector<DeclNode *> *p_declarations,
+                std::vector<FunctionNode *> *p_functions, 
+                CompoundStatementNode *const p_body
+                /* hw3: return type, declarations, functions,
+                 *       compound statement */);
+
+    const char *getNameCString() const {
+        return m_name.c_str();
+    }
+    const std::vector<DeclNode *> *getDeclarations() {
+        return &m_declarations;
+    }
+    const std::vector<FunctionNode *> *getFunctions() {
+        return &m_functions;
+    }
+    const CompoundStatementNode *getBody() {
+        return m_body;
+    }
+    ///
+    // visitor pattern version
+    void accept(AstNodeVisitor &p_visitor) override {
+        p_visitor.visit(*this);
+    }
+    void visitChildNodes(AstNodeVisitor &p_visitor) override;
+};
+
+#endif

@@ -1,0 +1,92 @@
+1: //&T-
+2: ret;
+3: 
+4: func1(): integer
+5: begin
+6:     // [CORRECT]
+7:     return 123;
+8: 
+9:     // [ERROR] incompatible type
+10:     return 456.0;
+11: 
+12:     // [ERROR] incompatible type
+13:     return "789";
+14: end
+15: end
+16: 
+17: func2(): real
+18: begin
+19:     // [CORRECT]
+20:     return 123;
+21: 
+22:     // [CORRECT]
+23:     return 456.0;
+24: 
+25:     // [ERROR] incompatible type
+26:     return "789";
+27: end
+28: end
+29: 
+30: func3(): boolean
+31: begin
+32:     var bool: array 10 of array 100 of boolean;
+33: 
+34:     // [ERROR] incompatible type
+35:     return bool[1];
+36: 
+37:     // [CORRECT]
+38:     return bool[1][1];
+39: 
+40:     // [ERROR] over subscript
+41:     return bool[1][1][1];
+42: end
+43: end
+44: 
+45: begin
+46:     // [ERROR] program doesn't return a value
+47:     return 10;
+48: end
+49: end
+==============================================================================================================
+Name                             Kind       Level      Type             Attribute  
+--------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------
+==============================================================================================================
+Name                             Kind       Level      Type             Attribute  
+--------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------
+==============================================================================================================
+Name                             Kind       Level      Type             Attribute  
+--------------------------------------------------------------------------------------------------------------
+bool                             variable   1(local)   boolean [10][100]           
+--------------------------------------------------------------------------------------------------------------
+==============================================================================================================
+Name                             Kind       Level      Type             Attribute  
+--------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------
+==============================================================================================================
+Name                             Kind       Level      Type             Attribute  
+--------------------------------------------------------------------------------------------------------------
+ret                              program    0(global)  void                        
+func1                            function   0(global)  integer                     
+func2                            function   0(global)  real                        
+func3                            function   0(global)  boolean                     
+--------------------------------------------------------------------------------------------------------------
+<Error> Found in line 10, column 12: return 'real' from a function with return type 'integer'
+        return 456.0;
+               ^
+<Error> Found in line 13, column 12: return 'string' from a function with return type 'integer'
+        return "789";
+               ^
+<Error> Found in line 26, column 12: return 'string' from a function with return type 'real'
+        return "789";
+               ^
+<Error> Found in line 35, column 12: return 'boolean [100]' from a function with return type 'boolean'
+        return bool[1];
+               ^
+<Error> Found in line 41, column 12: there is an over array subscript on 'bool'
+        return bool[1][1][1];
+               ^
+<Error> Found in line 47, column 5: program/procedure should not return a value
+        return 10;
+        ^

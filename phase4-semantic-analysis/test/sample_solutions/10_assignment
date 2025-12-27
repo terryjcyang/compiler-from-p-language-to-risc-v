@@ -1,0 +1,101 @@
+1: //&T-
+2: assignment;
+3: 
+4: begin
+5:     var const: 10;
+6:     var arr: array 20 of array 777 of real;
+7:     var float: real;
+8:     var bool: boolean;
+9: 
+10:     // [ERROR] symbol not found
+11:     err := arr[12][2];
+12: 
+13:     // [ERROR] array assignment (variable reference)
+14:     arr := 1.23;
+15: 
+16:     // [ERROR] const assignment
+17:     const := "SSLAB";
+18: 
+19:     for i := 1 to 30 do
+20:     begin
+21:         // [ERROR] loop variable assignment
+22:         i := 213;
+23:     end
+24:     end do
+25: 
+26:     // [ERROR] invalid operand
+27:     // [ERROR] const assignment
+28:     const := "NO.1" + float;
+29: 
+30:     // [ERROR] const assignment
+31:     const := arr;
+32: 
+33:     // [ERROR] array assignment (expression)
+34:     float := arr[10];
+35: 
+36:     // [ERROR] type mismatch
+37:     arr[0][23] := false;
+38:     float := "string";
+39: 
+40:     // [CORRECT]
+41:     float := 4210;
+42: 
+43:     // [ERROR] invalid operand
+44:     bool := -false;
+45: end
+46: end
+==============================================================================================================
+Name                             Kind       Level      Type             Attribute  
+--------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------
+==============================================================================================================
+Name                             Kind       Level      Type             Attribute  
+--------------------------------------------------------------------------------------------------------------
+i                                loop_var   2(local)   integer                     
+--------------------------------------------------------------------------------------------------------------
+==============================================================================================================
+Name                             Kind       Level      Type             Attribute  
+--------------------------------------------------------------------------------------------------------------
+const                            constant   1(local)   integer          10         
+arr                              variable   1(local)   real [20][777]              
+float                            variable   1(local)   real                        
+bool                             variable   1(local)   boolean                     
+--------------------------------------------------------------------------------------------------------------
+==============================================================================================================
+Name                             Kind       Level      Type             Attribute  
+--------------------------------------------------------------------------------------------------------------
+assignment                       program    0(global)  void                        
+--------------------------------------------------------------------------------------------------------------
+<Error> Found in line 11, column 5: use of undeclared symbol 'err'
+        err := arr[12][2];
+        ^
+<Error> Found in line 14, column 5: array assignment is not allowed
+        arr := 1.23;
+        ^
+<Error> Found in line 17, column 5: cannot assign to variable 'const' which is a constant
+        const := "SSLAB";
+        ^
+<Error> Found in line 22, column 9: the value of loop variable cannot be modified inside the loop body
+            i := 213;
+            ^
+<Error> Found in line 28, column 21: invalid operands to binary operator '+' ('string' and 'real')
+        const := "NO.1" + float;
+                        ^
+<Error> Found in line 28, column 5: cannot assign to variable 'const' which is a constant
+        const := "NO.1" + float;
+        ^
+<Error> Found in line 31, column 5: cannot assign to variable 'const' which is a constant
+        const := arr;
+        ^
+<Error> Found in line 34, column 14: array assignment is not allowed
+        float := arr[10];
+                 ^
+<Error> Found in line 37, column 16: assigning to 'real' from incompatible type 'boolean'
+        arr[0][23] := false;
+                   ^
+<Error> Found in line 38, column 11: assigning to 'real' from incompatible type 'string'
+        float := "string";
+              ^
+<Error> Found in line 44, column 13: invalid operand to unary operator 'neg' ('boolean')
+        bool := -false;
+                ^
