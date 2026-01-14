@@ -1,5 +1,10 @@
 # P Language to RISC-V Compiler
 
+> [!WARNING]
+> This repository contains course assignment implementations.
+> If you are taking this course (or a similar one), DO NOT copy, reuse, or submit any part of this code as your own work.
+> Doing so may result in **plagiarism violations** and academic penalties.
+
 A complete compiler implementation for the **P** programming language that generates RISC-V assembly code. This project was developed as part of the "Introduction to Compiler Design" course at NYCU (National Yang Ming Chiao Tung University) by Prof. Yi-Ping You.
 
 ## Overview
